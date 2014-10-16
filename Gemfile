@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'slim'
+gem 'pry'
+gem 'coffee-script'
+gem 'sass'
+gem 'json'
+gem 'flickraw'
+gem 'iron_cache'
