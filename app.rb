@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'sinatra/namespace'
 require 'sinatra/reloader'
 require 'sinatra/json'
 require 'slim'
@@ -33,13 +32,12 @@ class App < Sinatra::Base
   configure do
     set :root, File.dirname(__FILE__)
     set :flickr_store, FlickrStore.new
+
+    helpers Sinatra::JSON
   end
 
   configure :development do
     register Sinatra::Reloader
-    register Sinatra::Namespace
-
-    helpers Sinatra::JSON
   end
 
   get '/' do
@@ -57,21 +55,17 @@ class App < Sinatra::Base
   #
   # API
   #
-  namespace '/api' do
-    namespace '/v1' do
-      get '/' do
-        list   = flickr.photos.search(tags: 'puppy', content_type: 1).map(&:id)
-        json puppies: list
-      end
+  get '/api/v1' do
+    list   = flickr.photos.search(tags: 'puppy', content_type: 1).map(&:id)
+    json puppies: list
+  end
 
-      get '/:id' do
-        begin
-          json puppy: settings.flickr_store.get(params[:id]), id: params[:id]
-        rescue Exception => e
-          status 500
-          json error: e.message
-        end
-      end
+  get '/api/v1/:id' do
+    begin
+      json puppy: settings.flickr_store.get(params[:id]), id: params[:id]
+    rescue Exception => e
+      status 500
+      json error: e.message
     end
   end
 end
