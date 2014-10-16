@@ -8,7 +8,7 @@ javascript:
   var logger = function (e) { alert('parsing failed', e)};
 
   var getdog = function () {
-    fetch('/api/v1/')
+    fetch('/api/v1')
       .then(jsoner).then(function (j) {
         var random = Math.floor(Math.random() * j.puppies.length)
         var puppy = j.puppies[random];
