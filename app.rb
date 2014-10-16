@@ -19,7 +19,7 @@ class FlickrStore
     item = @cache.get(id)
     if item.nil?
       info = flickr.photos.getInfo(photo_id: id)
-      url = FlickRaw.url_o(info)
+      url = FlickRaw.url_b(info)
       @cache.put(id, url)
       url
     else
@@ -56,7 +56,7 @@ class App < Sinatra::Base
   # API
   #
   get '/api/v1' do
-    list   = flickr.photos.search(tags: 'puppy', content_type: 1).map(&:id)
+    list = flickr.photos.search(tags: 'puppy', content_type: 1).map(&:id)
     json puppies: list
   end
 
